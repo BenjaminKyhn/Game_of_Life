@@ -1,12 +1,12 @@
 public class Game {
-    public static final int BOARD_SIZE = 10;
+    public static final int BOARD_SIZE = 20;
 
     public static void main(String[] args) {
         Cell[][] board = new Cell[BOARD_SIZE][BOARD_SIZE];
         Cell[][] boardCopy = new Cell[BOARD_SIZE][BOARD_SIZE];
         boolean gameOver = false;
         clearBoard(board);
-        tetrominoPattern(board, 5, 5);
+        tetrominoPattern1(board, 10, 10);
 
         printBoard(board);
 
@@ -61,16 +61,6 @@ public class Game {
         System.out.println();
     }
 
-    public static void tetrominoPattern(Cell[][] board, int row, int column) {
-        if (row >= 0 && row + 1 < board.length && column - 2 > 0 && column < board[row].length) {
-            board[row][column].setAlive(true);
-            board[row][column - 1].setAlive(true);
-            board[row][column - 2].setAlive(true);
-            board[row + 1][column - 2].setAlive(true);
-        } else
-            System.out.println("Selected cell is outside of the board.");
-    }
-
     public static void updateStatus(Cell[][] board) {
         for (int row = 0; row < board.length - 1; row++) {
             for (int column = 0; column < board[row].length - 1; column++) {
@@ -113,6 +103,45 @@ public class Game {
                 board[row][column].updateCell();
             }
         }
+    }
+
+    public static void triminoPattern1(Cell[][] board, int row, int column) {
+        if (row >= 0 && row + 1 < board.length && column - 2 > 0 && column < board[row].length) {
+            board[row][column].setAlive(true);
+            board[row - 1][column + 1].setAlive(true);
+            board[row + 1][column - 1].setAlive(true);
+        } else
+            System.out.println("Selected cell is outside of the board.");
+    }
+
+    public static void tetrominoPattern1(Cell[][] board, int row, int column) {
+        if (row >= 0 && row + 1 < board.length && column - 2 > 0 && column < board[row].length) {
+            board[row][column].setAlive(true);
+            board[row][column - 1].setAlive(true);
+            board[row][column - 2].setAlive(true);
+            board[row + 1][column - 2].setAlive(true);
+        } else
+            System.out.println("Selected cell is outside of the board.");
+    }
+
+    public static void tetrominoPattern2(Cell[][] board, int row, int column) {
+        if (row >= 0 && row + 1 < board.length && column - 2 > 0 && column < board[row].length) {
+            board[row][column].setAlive(true);
+            board[row + 1][column].setAlive(true);
+            board[row + 2][column].setAlive(true);
+            board[row - 1][column].setAlive(true);
+        } else
+            System.out.println("Selected cell is outside of the board.");
+    }
+
+    public static void tetrominoPattern3(Cell[][] board, int row, int column) {
+        if (row >= 0 && row + 1 < board.length && column - 2 > 0 && column < board[row].length) {
+            board[row][column].setAlive(true);
+            board[row + 1][column].setAlive(true);
+            board[row + 1][column - 1].setAlive(true);
+            board[row + 1][column + 1].setAlive(true);
+        } else
+            System.out.println("Selected cell is outside of the board.");
     }
 }
 
