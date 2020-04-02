@@ -3,22 +3,42 @@ public class Game {
 
     public static void main(String[] args) {
         Cell[][] board = new Cell[BOARD_SIZE][BOARD_SIZE];
+        Cell[][] boardCopy = new Cell[BOARD_SIZE][BOARD_SIZE];
+        boolean gameOver = false;
         clearBoard(board);
         tetrominoPattern(board, 5, 5);
 
-        while (true){
-            printBoard(board);
+        printBoard(board);
+
+        do {
+            for (int i = 0; i < boardCopy.length; i++)
+                for (int j = 0; j < boardCopy[i].length; j++)
+                    boardCopy[i][j] = new Cell(board[i][j].isAlive());
+
             updateStatus(board);
             updateBoard(board);
             printBoard(board);
-        }
+
+            for (int row = 0; row < board.length; row++) {
+                for (int column = 0; column < board[row].length; column++) {
+                    if (board[row][column].isAlive() != boardCopy[row][column].isAlive()) {
+                        gameOver = false;
+                        break;
+                    }
+                    if (board[row][column].isAlive() == boardCopy[row][column].isAlive()) {
+                        gameOver = true;
+                    }
+                }
+                if (!gameOver)
+                    break;
+            }
+        } while (!gameOver);
     }
 
     public static void clearBoard(Cell[][] board) {
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
-                board[row][column] = new Cell();
-                board[row][column].setAlive(false);
+                board[row][column] = new Cell(false);
             }
         }
     }

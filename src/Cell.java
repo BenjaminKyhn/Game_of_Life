@@ -2,6 +2,10 @@ public class Cell {
     private int aliveNeighbours;
     private boolean alive;
 
+    public Cell(boolean alive){
+        this.alive = alive;
+    }
+
     public int getAliveNeighbours() {
         return aliveNeighbours;
     }
