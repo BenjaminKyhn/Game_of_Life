@@ -5,7 +5,13 @@ public class Game {
         Cell[][] board = new Cell[BOARD_SIZE][BOARD_SIZE];
         clearBoard(board);
         tetrominoPattern(board, 5, 5);
-        printBoard(board);
+
+        while (true){
+            printBoard(board);
+            updateStatus(board);
+            updateBoard(board);
+            printBoard(board);
+        }
     }
 
     public static void clearBoard(Cell[][] board) {
@@ -40,11 +46,48 @@ public class Game {
             System.out.println("Selected cell is outside of the board.");
     }
 
-    public static void update(Cell[][] board){
+    public static void updateStatus(Cell[][] board) {
+        for (int row = 0; row < board.length - 1; row++) {
+            for (int column = 0; column < board[row].length - 1; column++) {
+                board[row][column].setAliveNeighbours(0); // Reset the amount of alive neighbours of the cell
+                if (row - 1 >= 0) { // Don't look at cells in row - 1 < 0
+                    if (column - 1 >= 0)
+                        if (board[row - 1][column - 1].isAlive())
+                            board[row][column].incrementNeighbours();
+                    if (board[row - 1][column].isAlive())
+                        board[row][column].incrementNeighbours();
+                    if (column + 1 < board[row].length)
+                        if (board[row - 1][column + 1].isAlive())
+                            board[row][column].incrementNeighbours();
+                }
+
+                if (row + 1 < board.length) { // Don't look at cells in row + 1 > board size
+                    if (column - 1 >= 0)
+                        if (board[row + 1][column - 1].isAlive())
+                            board[row][column].incrementNeighbours();
+                    if (board[row + 1][column].isAlive())
+                        board[row][column].incrementNeighbours();
+                    if (column + 1 < board[row].length)
+                        if (board[row + 1][column + 1].isAlive())
+                            board[row][column].incrementNeighbours();
+                }
+
+                if (column - 1 >= 0)
+                    if (board[row][column - 1].isAlive())
+                        board[row][column].incrementNeighbours();
+                if (column + 1 < board[row].length)
+                    if (board[row][column + 1].isAlive())
+                        board[row][column].incrementNeighbours();
+            }
+        }
+    }
+
+    public static void updateBoard(Cell[][] board) {
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
-                board[row][column].update(board);
+                board[row][column].updateCell();
             }
         }
     }
 }
+
