@@ -11,14 +11,17 @@ public class Game {
         printBoard(board);
 
         do {
+            // Make a copy of the board
             for (int i = 0; i < boardCopy.length; i++)
                 for (int j = 0; j < boardCopy[i].length; j++)
                     boardCopy[i][j] = new Cell(board[i][j].isAlive());
 
+            // Update the board status
             updateStatus(board);
             updateBoard(board);
             printBoard(board);
 
+            // Check if the board has changed since the copy was made
             for (int row = 0; row < board.length; row++) {
                 for (int column = 0; column < board[row].length; column++) {
                     if (board[row][column].isAlive() != boardCopy[row][column].isAlive()) {
@@ -32,7 +35,9 @@ public class Game {
                 if (!gameOver)
                     break;
             }
-        } while (!gameOver);
+        } while (!gameOver); // End game if the cells have stopped changing
+
+        System.out.println("The cells have reached a stable state");
     }
 
     public static void clearBoard(Cell[][] board) {
