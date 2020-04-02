@@ -89,7 +89,6 @@ public class Main {
                     if (aliveNeighbours == 3)
                         board[row][column] = true;
                 }
-
             }
         }
     }
