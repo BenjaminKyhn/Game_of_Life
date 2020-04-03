@@ -1,3 +1,5 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -5,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
     @Override
@@ -34,28 +37,17 @@ public class Main extends Application {
         updateGUI(board, squares);
         game.printBoard(board);
 
-        do {
-            // Make a copy of the board
-            game.copyBoard(board, boardCopy);
-
-            // Update the board status
-            game.updateStatus(board);
-            game.updateBoard(board);
-            game.printBoard(board);
-
-            // Update the GUI
-            updateGUI(board, squares);
-
-            // Check if the board has changed since the copy was made
-            game.checkGameOver(board, boardCopy);
-
-        } while (!game.isGameOver()); // End game if the cells have stopped changing
-
-        System.out.println("The cells have reached a stable state");
+        // Add a timeline to call the cycle method
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(500),
+                e -> cycle(board, boardCopy, squares)));
+        timeline.setOnFinished(e -> finishText());
+        timeline.setCycleCount(3);
+        timeline.play();
     }
 
     // Method for showing the grid in the GUI
-    public void showGrid(GridPane gridPane, Rectangle[][] squares){
+    public void showGrid(GridPane gridPane, Rectangle[][] squares) {
         Game game = new Game();
         for (int i = 0; i < game.getBoardSize(); i++)
             for (int j = 0; j < game.getBoardSize(); j++) {
@@ -74,5 +66,27 @@ public class Main extends Application {
                     squares[row][column].setFill(Color.WHITE);
             }
         }
+    }
+
+    void cycle(Cell[][] board, Cell[][] boardCopy, Rectangle[][] squares) {
+        Game game = new Game();
+
+        // Make a copy of the board
+        game.copyBoard(board, boardCopy);
+
+        // Update the board status
+        game.updateStatus(board);
+        game.updateBoard(board);
+        game.printBoard(board);
+
+        // Update the GUI
+        updateGUI(board, squares);
+
+        // Check if the board has changed since the copy was made
+        game.checkGameOver(board, boardCopy);
+    }
+
+    void finishText() {
+        System.out.println("The cells have reached a stable state");
     }
 }
