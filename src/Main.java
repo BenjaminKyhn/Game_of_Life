@@ -29,7 +29,7 @@ public class Main extends Application {
 
         game.clearBoard(board);
         game.tetrominoPattern1(board, 10, 10);
-        tetrominoPattern1(board, squares);
+        updateGUI(board, squares);
         game.printBoard(board);
 
         do {
@@ -40,6 +40,9 @@ public class Main extends Application {
             game.updateStatus(board);
             game.updateBoard(board);
             game.printBoard(board);
+
+            // Update the GUI
+            updateGUI(board, squares);
 
             // Check if the board has changed since the copy was made
             game.checkGameOver(board, boardCopy);
@@ -58,11 +61,13 @@ public class Main extends Application {
             }
     }
 
-    public void tetrominoPattern1(Cell[][] board, Rectangle[][] squares) {
+    public void updateGUI(Cell[][] board, Rectangle[][] squares) {
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
                 if (board[row][column].isAlive())
                     squares[row][column].setFill(Color.BLUE);
+                if (!board[row][column].isAlive())
+                    squares[row][column].setFill(Color.WHITE);
             }
         }
     }
