@@ -9,21 +9,26 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+        // Instantiate a Game object and 2 two-dimensional arrays (these are part of the logic, but for the sake of not
+        // having to call game.getBoard() a million times I chose to instantiate it here)
         Game game = new Game();
         Cell[][] board = new Cell[game.getBoardSize()][game.getBoardSize()];
         Cell[][] boardCopy = new Cell[game.getBoardSize()][game.getBoardSize()];
 
+        // Create a GridPane and and two-dimensional array of Rectangles to be shown in the GUI
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         Rectangle[][] squares = new Rectangle[game.getBoardSize()][game.getBoardSize()];
 
         // Print the empty grid
-        printGrid(gridPane, squares);
+        showGrid(gridPane, squares);
 
+        // Create a scene and add it to the stage
         Scene scene = new Scene(gridPane, 25 * game.getBoardSize() + 50, 25 * game.getBoardSize() + 50);
         stage.setScene(scene);
         stage.show();
 
+        // Initiate the first pattern
         game.clearBoard(board);
         game.tetrominoPattern1(board, 10, 10);
         updateGUI(board, squares);
@@ -49,7 +54,8 @@ public class Main extends Application {
         System.out.println("The cells have reached a stable state");
     }
 
-    public void printGrid(GridPane gridPane, Rectangle[][] squares){
+    // Method for showing the grid in the GUI
+    public void showGrid(GridPane gridPane, Rectangle[][] squares){
         Game game = new Game();
         for (int i = 0; i < game.getBoardSize(); i++)
             for (int j = 0; j < game.getBoardSize(); j++) {
@@ -58,6 +64,7 @@ public class Main extends Application {
             }
     }
 
+    // Method for updating the grid in the GUI
     public void updateGUI(Cell[][] board, Rectangle[][] squares) {
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
