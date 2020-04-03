@@ -57,7 +57,7 @@ public class Game {
     public static void updateStatus(Cell[][] board) {
         for (int row = 0; row < board.length - 1; row++) {
             for (int column = 0; column < board[row].length - 1; column++) {
-                board[row][column].setAliveNeighbours(0); // Reset the amount of alive neighbours of the cell
+                board[row][column].setAliveNeighbours(0); // Reset the amount of living neighbours of the cell
                 if (row - 1 >= 0) { // Don't look at cells in row - 1 < 0
                     if (column - 1 >= 0)
                         if (board[row - 1][column - 1].isAlive())
@@ -99,18 +99,17 @@ public class Game {
     }
 
     public static void checkGameOver(Cell[][] board, Cell[][] boardCopy){
+        outerloop:
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
                 if (board[row][column].isAlive() != boardCopy[row][column].isAlive()) {
                     gameOver = false;
-                    break;
+                    break outerloop;
                 }
                 if (board[row][column].isAlive() == boardCopy[row][column].isAlive()) {
                     gameOver = true;
                 }
             }
-            if (!gameOver)
-                break;
         }
     }
 
